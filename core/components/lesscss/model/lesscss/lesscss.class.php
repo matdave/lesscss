@@ -1,25 +1,19 @@
 <?php
-namespace LessCSS\v3;
-
-use MODX\Revolution\modX;
 
 class LessCSS
 {
-    /** @var \MODX\Revolution\modX $modx */
     public $modx;
-
+    
     public $namespace = 'lesscss';
-
-    /** @var array $config */
+    
     public $config = [];
-
+    
     function __construct(modX &$modx, array $config = [])
     {
         $this->modx =& $modx;
 
         $corePath = $this->getOption('core_path', $config, $this->modx->getOption('core_path', null, MODX_CORE_PATH) . 'components/lesscss/');
         $assetsPath = $this->getOption('assets_path', $config, $this->modx->getOption('assets_path', null, MODX_ASSETS_PATH) . 'components/lesscss/');
-
         $this->config = array_merge(
             [
                 'corePath'  => $corePath,
@@ -29,7 +23,9 @@ class LessCSS
             ],
             $config
         );
+        $this->modx->addPackage('lesscss', $this->getOption('modelPath'));
         $this->modx->lexicon->load('lesscss:default');
+        $this->autoload();
     }
 
 
@@ -64,5 +60,10 @@ class LessCSS
         if (is_dir($cacheDir)) {
             $this->modx->cacheManager->deleteTree($cacheDir);
         }
+    }
+
+    protected function autoload()
+    {
+        require_once $this->getOption('corePath') . 'vendor/autoload.php';
     }
 }

@@ -1,0 +1,26 @@
+@import url(colors.less);
+@import url(blocks.less);
+@import url(fonts.less);
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+
+  .gradient(lighten(@cThemeBG, 20%), @cThemeBG);
+  color: @cThemeText;
+
+  a {
+    color: @cThemeLink;
+    text-decoration: none;
+
+    &:hover {
+      color: @cThemeLinkHover;
+      text-decoration: underline;
+    }
+  }
+
+}

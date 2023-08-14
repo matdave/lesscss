@@ -38,7 +38,7 @@ if ($modx->version['version'] < 3) {
 if (!isset($scriptProperties)) {
     $scriptProperties = [];
 }
-$path = $modx->getOption('path', $scriptProperties, 'assets/less/');
+$path = $modx->getOption('path', $scriptProperties, $lesscss->config['assetsPath']);
 $file = $modx->getOption('file', $scriptProperties, 'style.less');
 $fixRelativePaths = $modx->getOption('fixRelativePaths', $scriptProperties, true);
 $compress = $modx->getOption('compress', $scriptProperties, true);
