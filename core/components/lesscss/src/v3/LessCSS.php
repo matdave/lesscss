@@ -29,7 +29,6 @@ class LessCSS
             ],
             $config
         );
-        $this->modx->lexicon->load('lesscss:default');
     }
 
 
@@ -46,7 +45,7 @@ class LessCSS
     public function getOption(string $key, $options = [], $default = null)
     {
         $option = $default;
-        if (!empty($key) && is_string($key)) {
+        if (!empty($key)) {
             if ($options != null && array_key_exists($key, $options)) {
                 $option = $options[$key];
             } elseif (array_key_exists($key, $this->config)) {
@@ -62,7 +61,11 @@ class LessCSS
     {
         $cacheDir = $this->modx->getOption('core_path', null, MODX_CORE_PATH) . 'cache/'. $this->getOption('cachePath');
         if (is_dir($cacheDir)) {
-            $this->modx->cacheManager->deleteTree($cacheDir);
+            $this->modx->log(modX::LOG_LEVEL_INFO, 'Clearing LessCSS cache');
+            $this->modx->cacheManager->deleteTree($cacheDir, [
+                'deleteTop' => true,
+                'extensions' => false,
+            ]);
         }
     }
 }

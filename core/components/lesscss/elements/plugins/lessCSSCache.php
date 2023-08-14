@@ -1,6 +1,5 @@
 <?php
 
-$version = 'v2';
 if (empty($modx->version)) {
     $modx->getVersionData();
 }
@@ -12,15 +11,13 @@ if ($modx->version['version'] < 3) {
     );
     $lesscss = $modx->getService(
         'lesscss',
-        'lesscss',
+        'LessCSS',
         $corePath . 'model/lesscss/',
         [
             'core_path' => $corePath
         ]
     );
 } else {
-    $version = 'v3';
     $lesscss = $modx->services->get('lesscss');
 }
-
 $lesscss->clearCache();

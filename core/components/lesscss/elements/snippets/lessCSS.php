@@ -13,7 +13,6 @@
 
 // get the contents of the less file
 
-$version = 'v2';
 if (empty($modx->version)) {
     $modx->getVersionData();
 }
@@ -25,14 +24,13 @@ if ($modx->version['version'] < 3) {
     );
     $lesscss = $modx->getService(
         'lesscss',
-        'lesscss',
+        'LessCSS',
         $corePath . 'model/lesscss/',
         [
             'core_path' => $corePath
         ]
     );
 } else {
-    $version = 'v3';
     $lesscss = $modx->services->get('lesscss');
 }
 if (!isset($scriptProperties)) {
@@ -42,8 +40,11 @@ $path = $modx->getOption('path', $scriptProperties, $lesscss->config['assetsPath
 $file = $modx->getOption('file', $scriptProperties, 'style.less');
 $fixRelativePaths = $modx->getOption('fixRelativePaths', $scriptProperties, true);
 $compress = $modx->getOption('compress', $scriptProperties, true);
+$basePath = $modx->getOption('base_path', $scriptProperties, MODX_BASE_PATH);
 
-$file = $modx->getOption('base_path').$path.$file;
+$path = $basePath. ltrim($path, $basePath);
+
+$file = $path.$file;
 
 
 // run if not empty
@@ -55,13 +56,7 @@ if ($file && file_exists($file)) {
         $options = [
             'compress' => $compress,
             'relativeUrls' => $fixRelativePaths,
-            'import_dirs' => [
-                $modx->getOption(
-                'base_path',
-                null,
-                MODX_BASE_PATH
-                ) . $path
-            ],
+            'import_dirs' => [ $path ],
             'cache_dir' => $modx->getOption(
                 'core_path',
                 null,
@@ -80,4 +75,6 @@ if ($file && file_exists($file)) {
 
     // return the CSS
     return $string;
+} else {
+    return '// Error: finding file '.$file;
 }
