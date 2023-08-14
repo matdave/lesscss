@@ -1,0 +1,32 @@
+{
+  "name": "lessCSS",
+  "version": "2.0.0-pl",
+  "lowCaseName": "lesscss",
+  "namespace": "lessCSS",
+  "description": "LessCSS Compiler for MODX Revolution",
+  "author": "matdave",
+  "package" : {
+    "elements" : {
+      "plugins": [
+        {
+          "name": "lessCSSCache",
+          "file": "lessCSSCache.php",
+          "events": [
+            "OnSiteRefresh"
+          ]
+        }
+      ],
+      "snippets": [
+        {
+          "name": "lessCSS",
+          "file": "lessCSS.php"
+        }
+      ]
+    }
+  },
+  "build": {
+    "license": "LICENSE.md",
+    "changelog": "CHANGELOG.md",
+    "readme": "README.md"
+  }
+}
