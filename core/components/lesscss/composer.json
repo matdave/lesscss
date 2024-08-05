@@ -13,6 +13,6 @@
     ],
     "require": {
         "php": ">=7.4",
-        "wikimedia/less.php": "^4.1"
+        "wikimedia/less.php": "^5.0"
     }
 }
