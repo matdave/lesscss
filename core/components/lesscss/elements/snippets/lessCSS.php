@@ -36,13 +36,13 @@ if ($modx->version['version'] < 3) {
 if (!isset($scriptProperties)) {
     $scriptProperties = [];
 }
-$path = $modx->getOption('path', $scriptProperties, $lesscss->config['assetsPath']);
+$origPath = $modx->getOption('path', $scriptProperties, $lesscss->config['assetsPath']);
 $file = $modx->getOption('file', $scriptProperties, 'style.less');
 $fixRelativePaths = $modx->getOption('fixRelativePaths', $scriptProperties, true);
 $compress = $modx->getOption('compress', $scriptProperties, true);
 $basePath = $modx->getOption('base_path', $scriptProperties, MODX_BASE_PATH);
 
-$path = $basePath. ltrim($path, $basePath);
+$path = $basePath. ltrim($origPath, $basePath);
 
 $file = $path.$file;
 
@@ -55,6 +55,7 @@ if ($file && file_exists($file)) {
         // compile and return css
         $options = [
             'compress' => $compress,
+            'math' => 'always',
             'relativeUrls' => $fixRelativePaths,
             'import_dirs' => [ $path ],
             'cache_dir' => $modx->getOption(
@@ -72,7 +73,10 @@ if ($file && file_exists($file)) {
         $modx->log(1, $e->getMessage());
         return '// Error: parsing file '.$file;
     }
-
+    if ($fixRelativePaths) {
+        // regex to replace url($basePath) with url('')
+        $string = preg_replace('/url\((["\']?)'.str_replace('/', '\/', $basePath).'(.*?)\1\)/', 'url($1$2$1)', $string);
+    }
     // return the CSS
     return $string;
 } else {
