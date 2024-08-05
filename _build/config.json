@@ -1,6 +1,6 @@
 {
   "name": "lessCSS",
-  "version": "2.0.0-pl",
+  "version": "2.1.0-pl",
   "lowCaseName": "lesscss",
   "namespace": "lessCSS",
   "description": "LessCSS Compiler for MODX Revolution",
